@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('New Expense'),
+        title: const Text('New Expense'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context, value, child) => Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: openNewExpenseBox,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
         body: ListView.builder(
           itemCount: value.allExpense.length,
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           amountController.clear();
         }
       },
-      child: Text('Save'),
+      child: const Text('Save'),
     );
   }
 }
