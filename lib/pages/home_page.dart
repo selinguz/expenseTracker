@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expense individualExpense = value.allExpense[index];
             return ListTile(
               title: Text(individualExpense.name),
-              trailing: Text(individualExpense.amount.toString()),
+              trailing: Text(formatAmount(individualExpense.amount)),
             );
           },
         ),
