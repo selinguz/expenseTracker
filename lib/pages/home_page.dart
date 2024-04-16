@@ -77,27 +77,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void openDeleteBox() {
+  void openDeleteBox(Expense expense) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('New Expense'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(hintText: 'Name'),
-            ),
-            TextField(
-              controller: amountController,
-              decoration: const InputDecoration(hintText: 'Amount'),
-            ),
-          ],
-        ),
+        title: const Text('Delete Expense?'),
         actions: [
           _cancelButton(),
-          _createNewExpenseButton(),
+          _deleteExpenseButton(expense.id),
         ],
       ),
     );
@@ -118,8 +105,8 @@ class _MyHomePageState extends State<MyHomePage> {
             return MyListTile(
               title: individualExpense.name,
               trailing: formatAmount(individualExpense.amount),
-              onEditPressed: (context) => openEditBox,
-              onDeletePressed: (context) => openDeleteBox,
+              onEditPressed: (context) => openEditBox(individualExpense),
+              onDeletePressed: (context) => openDeleteBox(individualExpense),
             );
           },
         ),
@@ -183,6 +170,16 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       },
       child: const Text('Save'),
+    );
+  }
+
+  Widget _deleteExpenseButton(int id) {
+    return MaterialButton(
+      onPressed: () async {
+        Navigator.pop(context);
+        await context.read<ExpenseDatabase>().deleteExpense(id);
+      },
+      child: const Text('Delete'),
     );
   }
 }
