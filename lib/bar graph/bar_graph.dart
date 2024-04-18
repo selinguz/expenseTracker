@@ -22,54 +22,76 @@ class _MyBarGraphState extends State<MyBarGraph> {
 
   //initialize bar data
   void initializeBarData() {
+    // Ensure startMonth is within a valid range
+    int adjustedStartMonth = widget.startMonth - 1 % 12;
+
     barData = List.generate(
       widget.monthlySummary.length,
-      (index) => IndividualBar(
-        x: index,
-        y: widget.monthlySummary[index],
-      ),
+      (index) {
+        // Calculate the adjusted index based on startMonth
+        int adjustedIndex = (index + adjustedStartMonth) % 12;
+
+        return IndividualBar(
+          x: adjustedIndex,
+          y: widget.monthlySummary[index],
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     initializeBarData();
-    return BarChart(
-      BarChartData(
-        minY: 0,
-        maxY: 200,
-        gridData: const FlGridData(show: false),
-        borderData: FlBorderData(show: false),
-        titlesData: const FlTitlesData(
-          show: true,
-          topTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: getBottomTitles,
-              //TODO getBottomTitles neden aşağıdaki parametreleri almıyo?
-              reservedSize: 24,
+    double barWidth = 20;
+    double spaceBetweenBars = 15;
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width:
+            barWidth * barData.length + spaceBetweenBars * (barData.length - 1),
+        child: BarChart(
+          BarChartData(
+            minY: 0,
+            maxY: 200,
+            gridData: const FlGridData(show: false),
+            borderData: FlBorderData(show: false),
+            titlesData: const FlTitlesData(
+              show: true,
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: getBottomTitles,
+                  //TODO getBottomTitles neden aşağıdaki parametreleri almıyo?
+                  reservedSize: 24,
+                ),
+              ),
             ),
+            barGroups: barData
+                .map(
+                  (data) => BarChartGroupData(
+                    x: data.x,
+                    barRods: [
+                      BarChartRodData(
+                        toY: data.y,
+                        width: 20,
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.grey.shade800,
+                      ),
+                    ],
+                  ),
+                )
+                .toList(),
           ),
         ),
-        barGroups: barData
-            .map(
-              (data) => BarChartGroupData(
-                x: data.x,
-                barRods: [
-                  BarChartRodData(toY: data.y),
-                ],
-              ),
-            )
-            .toList(),
       ),
     );
   }
@@ -83,7 +105,7 @@ Widget getBottomTitles(double value, TitleMeta meta) {
   );
 
   String text;
-  switch (value.toInt()) {
+  switch (value.toInt() % 12) {
     case 0:
       text = 'OC';
       break;
