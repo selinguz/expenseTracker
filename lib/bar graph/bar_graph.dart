@@ -85,6 +85,11 @@ class _MyBarGraphState extends State<MyBarGraph> {
                         width: 20,
                         borderRadius: BorderRadius.circular(4),
                         color: Colors.grey.shade800,
+                        backDrawRodData: BackgroundBarChartRodData(
+                          show: true,
+                          toY: 100,
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),

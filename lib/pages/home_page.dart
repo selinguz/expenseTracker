@@ -116,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //only display the expenses for the current month
       //return UI
       return Scaffold(
+        backgroundColor: Colors.grey.shade300,
         floatingActionButton: FloatingActionButton(
           onPressed: openNewExpenseBox,
           child: const Icon(Icons.add),
