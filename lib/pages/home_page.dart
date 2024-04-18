@@ -114,6 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
       int monthCount =
           calculateMonthCount(startYear, startMonth, currentYear, currentMonth);
       //only display the expenses for the current month
+      List<Expense> currentMonthExpenses = value.allExpense.where((expense) {
+        return expense.date.year == currentYear &&
+            expense.date.month == currentMonth;
+      }).toList();
       //return UI
       return Scaffold(
         backgroundColor: Colors.grey.shade300,
@@ -150,9 +154,11 @@ class _MyHomePageState extends State<MyHomePage> {
               //Expense list UI
               Expanded(
                 child: ListView.builder(
-                  itemCount: value.allExpense.length,
+                  itemCount: currentMonthExpenses.length,
                   itemBuilder: (context, index) {
-                    Expense individualExpense = value.allExpense[index];
+                    int reversedIndex = currentMonthExpenses.length - 1 - index;
+                    Expense individualExpense =
+                        currentMonthExpenses[reversedIndex];
                     return MyListTile(
                       title: individualExpense.name,
                       trailing: formatAmount(individualExpense.amount),
