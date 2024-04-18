@@ -55,6 +55,8 @@ class _MyBarGraphState extends State<MyBarGraph> {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: getBottomTitles,
+              //TODO getBottomTitles neden aşağıdaki parametreleri almıyo?
+              reservedSize: 24,
             ),
           ),
         ),
