@@ -18,18 +18,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //futures to load graph data
   Future<Map<int, double>>? _monthlyTotalsFuture;
+  Future<double>? _calculateCurrentMonthTotal;
 
   @override
   void initState() {
     Provider.of<ExpenseDatabase>(context, listen: false).readExpenses();
-    refreshGraphData();
+    refreshData();
     super.initState();
   }
 
   //refresh graph data
-  void refreshGraphData() {
+  void refreshData() {
     _monthlyTotalsFuture = Provider.of<ExpenseDatabase>(context, listen: false)
         .calculateMonthlyTotals();
+    _calculateCurrentMonthTotal =
+        Provider.of<ExpenseDatabase>(context, listen: false)
+            .calculateCurrentMonthTotal();
   }
 
   void openNewExpenseBox() {
@@ -201,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
               amount: convertStringToDouble(amountController.text),
               date: DateTime.now());
           await context.read<ExpenseDatabase>().createNewExpense(newExpense);
-          refreshGraphData();
+          refreshData();
           nameController.clear();
           amountController.clear();
         }
@@ -232,7 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
               .read<ExpenseDatabase>()
               .updateExpenses(existingId, updatedExpense);
         }
-        refreshGraphData();
+        refreshData();
       },
       child: const Text('Save'),
     );
@@ -243,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
       onPressed: () async {
         Navigator.pop(context);
         await context.read<ExpenseDatabase>().deleteExpense(id);
-        refreshGraphData();
+        refreshData();
       },
       child: const Text('Delete!!'),
     );
