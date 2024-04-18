@@ -194,6 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
               amount: convertStringToDouble(amountController.text),
               date: DateTime.now());
           await context.read<ExpenseDatabase>().createNewExpense(newExpense);
+          refreshGraphData();
           nameController.clear();
           amountController.clear();
         }
@@ -224,6 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
               .read<ExpenseDatabase>()
               .updateExpenses(existingId, updatedExpense);
         }
+        refreshGraphData();
       },
       child: const Text('Save'),
     );
@@ -234,6 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
       onPressed: () async {
         Navigator.pop(context);
         await context.read<ExpenseDatabase>().deleteExpense(id);
+        refreshGraphData();
       },
       child: const Text('Delete'),
     );
