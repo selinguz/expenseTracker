@@ -238,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await context.read<ExpenseDatabase>().deleteExpense(id);
         refreshGraphData();
       },
-      child: const Text('Delete'),
+      child: const Text('Delete!!'),
     );
   }
 }
