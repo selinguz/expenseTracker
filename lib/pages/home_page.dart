@@ -136,8 +136,16 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context, snapshot) {
               //loaded
               if (snapshot.connectionState == ConnectionState.done) {
-                return Text(
-                  '₺${snapshot.data!.toStringAsFixed(2)}',
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //month
+                    Text(getCurrentMonthName()),
+                    //amount total
+                    Text(
+                      '₺${snapshot.data!.toStringAsFixed(2)}',
+                    ),
+                  ],
                 );
               }
               //loading

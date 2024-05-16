@@ -19,3 +19,23 @@ int calculateMonthCount(int startYear, startMonth, currentYear, currentMonth) {
       (currentYear - startYear) * 12 + (currentMonth - startMonth + 1);
   return monthCount;
 }
+
+//get current month name
+String getCurrentMonthName() {
+  DateTime now = DateTime.now();
+  List<String> months = [
+    'Ocak',
+    'Şubat',
+    'Mart',
+    'Nisan',
+    'Mayıs',
+    'Haziran',
+    'Temmuz',
+    'Ağustos',
+    'Eylül',
+    'Ekim',
+    'Kasım',
+    'Aralık'
+  ];
+  return months[now.month - 1];
+}
