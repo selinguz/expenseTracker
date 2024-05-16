@@ -181,6 +181,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
               ),
+              const SizedBox(
+                height: 25,
+              ),
               //Expense list UI
               Expanded(
                 child: ListView.builder(
