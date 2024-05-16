@@ -129,6 +129,24 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: openNewExpenseBox,
           child: const Icon(Icons.add),
         ),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: FutureBuilder<double>(
+            future: _calculateCurrentMonthTotal,
+            builder: (context, snapshot) {
+              //loaded
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Text(
+                  '₺${snapshot.data!.toStringAsFixed(2)}',
+                );
+              }
+              //loading
+              else {
+                return const Text('loading...');
+              }
+            },
+          ),
+        ),
         body: SafeArea(
           child: Column(
             children: [
@@ -249,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await context.read<ExpenseDatabase>().deleteExpense(id);
         refreshData();
       },
-      child: const Text('Delete!!'),
+      child: const Text('Delete'),
     );
   }
 }
